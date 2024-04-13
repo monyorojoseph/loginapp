@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: loginapp
+  labels:
+    app: loginapp
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: loginapp
+  template:
+    metadata:
+      labels:
+        app: loginapp
+    spec:
+      containers:
+      - name: app
+        image: monyorojoseph/loginapp
+        command: ["gunicorn", "--bind", "0.0.0.0:8000", "setup.wsgi"]
+        imagePullPolicy: IfNotPresent
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 8000
+        livenessProbe:
+          initialDelaySeconds: 10
+          periodSeconds: 15
+          failureThreshold: 1
+          httpGet:
+            path: /
+            port: 8000
+
+        # readinessProbe:
+        #   tcpSocket:
+        #     port: 8000
+        #   initialDelaySeconds: 15
+        #   periodSeconds: 10
+        # livenessProbe:
+        #   tcpSocket:
+        #     port: 8000
+        #   initialDelaySeconds: 15
+        #   periodSeconds: 10
+
+          
