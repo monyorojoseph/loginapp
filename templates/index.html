@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+    <div>
+        {% if user.is_authenticated %}
+
+            <div>
+                <div>
+                    <h6>Hello, {{ user.username }}</h6>
+                </div>
+                <div class="mt-4">
+                    <h6>Users</h6>
+                    <ul>
+                        {% for user in users %}
+                            <li>{{user.username}} -- {{user.email}}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            <div>
+        {% else %}
+
+        <div>
+            <div>
+                <h6>Hello, Welcome</h6>
+                <p>
+                    <a href="{% url "signin" %}"> Sign In </a> or <a href="{% url "signup" %}"> Sign Up </a>
+                </p>
+            </div>
+        <div>
+        {% endif %}
+    </div>
+{% endblock content %}
