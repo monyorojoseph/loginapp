@@ -9,6 +9,8 @@ RUN pip install -U pip
 COPY ./requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
+EXPOSE 5000
+
 COPY . .
 
 CMD ["gunicorn", "--bind", "0.0.0.0:8000", "setup.wsgi"]
