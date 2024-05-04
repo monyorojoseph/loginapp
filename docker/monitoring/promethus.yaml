@@ -28,14 +28,6 @@ scrape_configs:
     static_configs:
       - targets: ["host.docker.internal:9323"]
   
-  - job_name: loginapp
-    static_configs:
-      - targets: ["localhost:8000"]
-
-  - job_name: loginappserver
-    static_configs:
-      - targets: ["localhost"]
-
-  - job_name: loginappdb
-    static_configs:
-      - targets: ["localhost:5432"]
+  # - job_name: loginapp    # TODO fix connect issue
+  #   static_configs:
+  #     - targets: ["localhost:8000"]

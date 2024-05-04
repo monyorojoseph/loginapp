@@ -6,27 +6,31 @@ services:
     container_name: prometheus
     restart: always
     networks:
-      - monitoringloginapp
+      - monitoring
     ports:
       - '9090:9090'
+    volumes:
+      - ./promethus.yaml:/etc/prometheus/prometheus.yml
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     
   grafana:
     image: grafana/grafana-enterprise
     container_name: grafana
     restart: always
     networks:
-      - monitoringloginapp
+      - monitoring
     depends_on:
       - prometheus
     ports:
      - '3000:3000'
     volumes:
       - grafana-storage:/var/lib/grafana
+      - ./datasources.yaml:/etc/grafana/provisioning/datasources/datasources.yaml
 
 networks:
-  monitoringloginapp:
-    name: monitoringloginapp
-    driver: overlay
+  monitoring:
+    name: monitoring
     attachable: true
       
 volumes:
