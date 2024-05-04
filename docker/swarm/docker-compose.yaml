@@ -2,15 +2,17 @@ version: '3.9'
 services:
   server:
     image: monyorojoseph/loginappserver
+    restart: unless-stopped
     ports:
       - 80:80
       - 443:443
     depends_on:
       - app
-      
+
   app:
     image: monyorojoseph/loginapp
     command: ["gunicorn", "--bind", "0.0.0.0:8000", "setup.wsgi"]
+    restart: unless-stopped
     ports:
       - 8000:8000
     networks:
@@ -24,6 +26,7 @@ services:
       
   db:
     image: postgres:13
+    restart: unless-stopped
     ports:
       - 5432:5432
     networks:

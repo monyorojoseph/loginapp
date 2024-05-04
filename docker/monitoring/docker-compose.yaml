@@ -4,7 +4,7 @@ services:
   prometheus:
     image: prom/prometheus
     container_name: prometheus
-    restart: always
+    restart: unless-stopped
     networks:
       - monitoring
     ports:
@@ -17,7 +17,7 @@ services:
   grafana:
     image: grafana/grafana-enterprise
     container_name: grafana
-    restart: always
+    restart: unless-stopped
     networks:
       - monitoring
     depends_on:
