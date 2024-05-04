@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from core import views
 
 urlpatterns = [
@@ -9,4 +9,5 @@ urlpatterns = [
     path("signout/", views.signout, name="signout"),
 
     path('admin/', admin.site.urls),
+    path('', include('django_prometheus.urls')),
 ]
