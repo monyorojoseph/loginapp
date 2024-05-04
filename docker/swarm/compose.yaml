@@ -1,19 +1,4 @@
-name: loginapp
-
-version: '3.9'
-
 services:
-  # server:   # POINTLESS will use global reverse proxy
-  #   image: monyorojoseph/loginappserver
-  #   restart: unless-stopped
-  #   ports:
-  #     - 80:80
-  #     - 443:443
-  #   depends_on:
-  #     - app
-  #   deploy:
-  #     mode: global
-
   app:
     image: monyorojoseph/loginapp
     command: ["gunicorn", "--bind", "0.0.0.0:8000", "setup.wsgi"]
