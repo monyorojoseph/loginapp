@@ -3,20 +3,18 @@ version: '3.9'
 services:
   prometheus:
     image: prom/prometheus
-    container_name: prometheus
     restart: always
     networks:
       - monitoring
     ports:
       - '9090:9090'
     volumes:
-      - ./promethus.yaml:/etc/prometheus/prometheus.yml
+      - ./prometheus.yaml:/etc/prometheus/prometheus.yml
     extra_hosts:
       - "host.docker.internal:host-gateway"
     
   grafana:
     image: grafana/grafana-enterprise
-    container_name: grafana
     restart: always
     networks:
       - monitoring

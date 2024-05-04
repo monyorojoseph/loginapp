@@ -2,7 +2,6 @@ version: '3.9'
 services:
   server:
     image: monyorojoseph/loginappserver
-    container_name: LoginAppServerQA
     networks:
       - loginapp
     ports:
@@ -12,7 +11,6 @@ services:
       - app
   app:
     image: monyorojoseph/loginapp:qa
-    container_name: LoginAppQA
     command: ["gunicorn", "--bind", "0.0.0.0:8000", "setup.wsgi"]
     networks:
       - loginapp
@@ -27,7 +25,6 @@ services:
       
   db:
     image: postgres:13
-    container_name: LoginAppDPQA
     networks:
       - loginapp
     ports:
