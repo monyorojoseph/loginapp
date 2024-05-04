@@ -1,12 +1,25 @@
 version: '3.9'
 services:
+  server:
+    image: monyorojoseph/loginappserver
+    container_name: LoginAppServerQA
+    networks:
+      - loginapp
+    ports:
+      - 80:80
+      - 443:443
+    depends_on:
+      - app
   app:
     image: monyorojoseph/loginapp:qa
+    container_name: LoginAppQA
     command: ["gunicorn", "--bind", "0.0.0.0:8000", "setup.wsgi"]
+    networks:
+      - loginapp
     ports:
       - 8000:8000
     environment:
-      - ALLOWED_HOSTS=localhost
+      - ALLOWED_HOSTS=localhost demo.com demo
       - SECRET_KEY=ca13f095ca2e07882b9db2b1f980328c9f8669e9b5d65b51ccd15cfe4e03018d
       - DB_URL=postgres://postgres:postgres@db:5432/loginapp
     depends_on:
@@ -14,6 +27,9 @@ services:
       
   db:
     image: postgres:13
+    container_name: LoginAppDPQA
+    networks:
+      - loginapp
     ports:
       - 5432:5432
     volumes:
@@ -22,6 +38,11 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_USER: postgres
       POSTGRES_DB: loginapp
+
+networks:
+  loginapp:
+    name: loginapp
+    attachable: true
 
 volumes:
   pg_db_vm_qa:
