@@ -30,13 +30,12 @@ services:
       - db
     deploy:
       mode: replicated
-      replicas: 5
+      replicas: 25
       update_config:
         parallelism: 1
         delay: 1m
         failure_action: rollback
         monitor: 2m
-        max_failure_ratio: 2
       rollback_config:
         parallelism: 1
         delay: 30s
@@ -58,7 +57,6 @@ services:
 networks:
   loginapp:
     name: loginapp
-    driver: overlay
     attachable: true
 
 volumes:

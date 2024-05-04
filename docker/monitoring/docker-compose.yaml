@@ -2,40 +2,39 @@ version: '3.9'
 
 services:
   prometheus:
-    image: prom/prometheus
+    image: monyorojoseph/prometheus
     restart: unless-stopped
-    # networks:
-    #   - monitoring
+    networks:
+      - monitoring
     ports:
       - '9090:9090'
-    volumes:
-      - ./prometheus.yaml:/etc/prometheus/prometheus.yml
+    # volumes:
+    #   - ./prometheus.yaml:/etc/prometheus/prometheus.yml    # handle on custom image
     extra_hosts:
       - "host.docker.internal:host-gateway"
     deploy:
       mode: global
     
   grafana:
-    image: grafana/grafana-enterprise
+    image: monyorojoseph/grafana
     restart: unless-stopped
-    # networks:
-    #   - monitoring
+    networks:
+      - monitoring
     depends_on:
       - prometheus
     ports:
      - '3000:3000'
     volumes:
       - grafana-storage:/var/lib/grafana
-      - ./datasources.yaml:/etc/grafana/provisioning/datasources/datasources.yaml
+      # - ./datasources.yaml:/etc/grafana/provisioning/datasources/datasources.yaml    # handle on custom image
 
     deploy:
-      mode: global
+      replicas: 1
 
-# networks:
-#   monitoring:
-#     name: monitoring
-#     driver: overlay
-#     attachable: true
+networks:
+  monitoring:
+    name: monitoring
+    attachable: true
       
 volumes:
   grafana-storage: {}
