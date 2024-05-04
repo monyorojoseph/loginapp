@@ -1,0 +1,45 @@
+version: '3.9'
+services:
+  server:
+    image: monyorojoseph/loginappserver
+    ports:
+      - 80:80
+      - 443:443
+    depends_on:
+      - app
+      
+  app:
+    image: monyorojoseph/loginapp
+    command: ["gunicorn", "--bind", "0.0.0.0:8000", "setup.wsgi"]
+    ports:
+      - 8000:8000
+    networks:
+      - loginapp
+    environment:
+      - ALLOWED_HOSTS=localhost
+      - SECRET_KEY=ca13f095ca2e07882b9db2b1f980328c9f8669e9b5d65b51ccd15cfe4e03018d
+      - DB_URL=postgres://postgres:postgres@db:5432/loginapp
+    depends_on:
+      - db
+      
+  db:
+    image: postgres:13
+    ports:
+      - 5432:5432
+    networks:
+      - loginapp
+    volumes:
+      - loginapp_db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: loginapp
+
+networks:
+  loginapp:
+    name: loginapp
+    driver: overlay
+    attachable: true
+
+volumes:
+  loginapp_db:

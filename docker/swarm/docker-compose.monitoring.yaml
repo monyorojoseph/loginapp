@@ -1,0 +1,33 @@
+version: '3.9'
+
+services:
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    restart: always
+    networks:
+      - monitoringloginapp
+    ports:
+      - '9090:9090'
+    
+  grafana:
+    image: grafana/grafana-enterprise
+    container_name: grafana
+    restart: always
+    networks:
+      - monitoringloginapp
+    depends_on:
+      - prometheus
+    ports:
+     - '3000:3000'
+    volumes:
+      - grafana-storage:/var/lib/grafana
+
+networks:
+  monitoringloginapp:
+    name: monitoringloginapp
+    driver: overlay
+    attachable: true
+      
+volumes:
+  grafana-storage: {}
