@@ -2,11 +2,7 @@ name: Build App Image
 
 on:
     push: 
-        branches: [ master ]
-        paths-ignore:
-          - docker/Grafana/**
-          - docker/Prometheus/**
-          
+        branches: [ master ]          
     workflow_dispatch:
 
 
