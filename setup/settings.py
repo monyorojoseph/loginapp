@@ -18,7 +18,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY", "insecure-secret-key")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS: list[str] = os.environ.get("ALLOWED_HOSTS", "localhost").split(" ")
+ALLOWED_HOSTS: list[str] = os.environ.get("ALLOWED_HOSTS", "*").split(" ")
 
 
 # Application definition
