@@ -35,41 +35,15 @@ resource "azurerm_subnet_network_security_group_association" "nsg_association" {
 
 # NSG rules
 resource "azurerm_network_security_rule" "ssh" {
-  name                        = "ssh"
-  access                      = "Allow"
-  priority                    = 300
-  direction                   = "Inbound"
-  protocol                    = "Tcp"
-  source_port_range           = "*"
-  destination_port_range      = "22"
-  source_address_prefix       = "*"
-  destination_address_prefix  = "*"
-  resource_group_name         = azurerm_resource_group.rg.name
-  network_security_group_name = azurerm_network_security_group.nsg.name
-}
+  for_each               = { for rule in var.inbound_ports : rule.name => rule }
+  name                   = each.value.name
+  priority               = each.value.priority
+  destination_port_range = each.value.port
 
-resource "azurerm_network_security_rule" "http" {
-  name                        = "http"
   access                      = "Allow"
-  priority                    = 310
   direction                   = "Inbound"
   protocol                    = "Tcp"
   source_port_range           = "*"
-  destination_port_range      = "80"
-  source_address_prefix       = "*"
-  destination_address_prefix  = "*"
-  resource_group_name         = azurerm_resource_group.rg.name
-  network_security_group_name = azurerm_network_security_group.nsg.name
-}
-
-resource "azurerm_network_security_rule" "https" {
-  name                        = "https"
-  access                      = "Allow"
-  priority                    = 320
-  direction                   = "Inbound"
-  protocol                    = "Tcp"
-  source_port_range           = "*"
-  destination_port_range      = "443"
   source_address_prefix       = "*"
   destination_address_prefix  = "*"
   resource_group_name         = azurerm_resource_group.rg.name
