@@ -18,7 +18,7 @@ variable "inbound_ports" {
     },
     {
       name     = "promethesu"
-      port     = "9000"
+      port     = "9090"
       priority = "303"
     },
     {
