@@ -11,7 +11,15 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_USER: postgres
       POSTGRES_DB: loginapp
+  
+  redis:
+    image: redis
+    ports:
+      - 6379:6379
+    volumes:
+      - redis_vm:/usr/local/etc/redis
 
 
 volumes:
   pg_db_vm:
+  redis_vm:
