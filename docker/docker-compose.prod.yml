@@ -13,8 +13,31 @@ services:
       - DEBUG=False
       - SECRET_KEY=ca13f095ca2e07882b9db2b1f980328c9f8669e9b5d65b51ccd15cfe4e03018d
       - DB_URL=postgres://postgres:postgres@db:5432/loginapp
+      - EMAIL_HOST=smtp.gmail.com
+      - EMAIL_HOST_USER=xxxx@gmail.com
+      - EMAIL_HOST_PASSWORD=yyyyy
+      - REDIS_URL=redis://redis:6379/?db=1
     depends_on:
       - db
+
+  task:
+    image: monyorojoseph/loginapp
+    command: ["manage.py", "run_heuy"]
+    networks:
+      - loginapp
+      # - monitoring
+    environment:
+      # - ALLOWED_HOSTS=localhost prometheus
+      - DEBUG=False
+      - SECRET_KEY=ca13f095ca2e07882b9db2b1f980328c9f8669e9b5d65b51ccd15cfe4e03018d
+      - DB_URL=postgres://postgres:postgres@db:5432/loginapp
+      - EMAIL_HOST=smtp.gmail.com
+      - EMAIL_HOST_USER=xxxx@gmail.com
+      - EMAIL_HOST_PASSWORD=yyyyy
+      - REDIS_URL=redis://redis:6379/?db=1
+    depends_on:
+      - db
+      - redis
       
   db:
     image: postgres:13
@@ -28,6 +51,16 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_USER: postgres
       POSTGRES_DB: loginapp
+
+
+  redis:
+    image: redis
+    ports:
+      - 6379:6379
+    volumes:
+      - redis_vm:/usr/local/etc/redis
+    networks:
+      - loginapp
  
 networks:
   loginapp:
@@ -39,3 +72,4 @@ networks:
 
 volumes:
   db_vm:
+  redis_vm:
